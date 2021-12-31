@@ -12,12 +12,16 @@ SCC <- readRDS("Source_Classification_Code.rds")
 # Set up a PNG device
 png(filename = "plot6.png")
 
-# Plot Emissions by year faceted by type as bar plots
+# Plot mobile Emissions by year for Baltimore and LA County
 mv_scc <- SCC[grepl("^Mobile.*", SCC$EI.Sector), 1]
 mv_nei <- NEI[NEI$SCC %in% mv_scc, ]
 mv_sub <- subset(mv_nei, fips %in% c("24510", "06037"))
-g <- ggplot(mv_sub, aes(factor(year), Emissions))
-g + facet_grid(vars(factor(fips))) + geom_col()
+city <- c("24510" = "Baltimore City", "06037" = "Los Angeles County")
+ggplot(mv_sub, aes(factor(year), Emissions)) +
+    facet_grid(vars(factor(fips)), labeller = labeller(.rows = city)) +
+    stat_summary(fun = "sum", geom = "bar") +
+    labs(title = "Annual Mobile PM2.5 Emissions, Faceted by Region") +
+    labs(x = "Year", y = "Total PM2.5 Emissions (tons)")
 
 # Save and close the PNG
 dev.off()

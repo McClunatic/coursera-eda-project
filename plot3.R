@@ -13,7 +13,11 @@ NEI <- readRDS("summarySCC_PM25.rds")
 png(filename = "plot3.png")
 
 # Plot Emissions by year faceted by type as bar plots
-ggplot(NEI, aes(factor(year), Emissions)) + facet_grid(vars(type)) + geom_col()
+ggplot(NEI, aes(factor(year), Emissions)) +
+    facet_grid(vars(type)) +
+    stat_summary(fun = "sum", geom = "bar") +
+    labs(title = "Annual PM2.5 Emissions, Faceted by Type") +
+    labs(x = "Year", y = "Total PM2.5 Emissions (tons)")
 
 # Save and close the PNG
 dev.off()
