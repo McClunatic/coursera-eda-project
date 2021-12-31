@@ -31,7 +31,7 @@ png(filename = "plot5.png")
 mv_scc <- SCC[grepl("^Mobile.*", SCC$EI.Sector), 1]
 mv_nei <- NEI[NEI$SCC %in% mv_scc, ]
 mv_balt <- subset(mv_nei, fips == "24510")
-plot_total_emissions(mv_balt,  "from Mobile Sources in Baltimore City")
+plot_total_emissions(mv_balt,  "from\nMobile Sources in Baltimore City")
 
 # Save and close the PNG
 dev.off()
