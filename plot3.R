@@ -4,6 +4,7 @@
 #' seen decreases in emissions from 1999–2008 for Baltimore City? Which have
 #' seen increases in emissions from 1999–2008? Use the ggplot2 plotting system
 #' to make a plot answer this question.
+library(ggplot2)
 
 # Load the dataset
 NEI <- readRDS("summarySCC_PM25.rds")
