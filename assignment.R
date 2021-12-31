@@ -16,3 +16,24 @@ ggplot_emissions_by_type <- function(nei) {
     g <- ggplot(nei, aes(factor(year), Emissions))
     g + facet_grid(vars(type)) + geom_col()
 }
+
+question1 <- function(nei) {
+    main <- "Total Annual PM2.5 Emissions"
+    plot_total_emissions(nei, main)
+}
+
+question2 <- function(nei) {
+    balt <- subset(nei, fips == "24510")
+    main <- "Total Annual PM2.5 Emissions for Baltimore City"
+    plot_total_emissions(balt, main)
+}
+
+question3 <- function(nei) {
+    ggplot_emissions_by_type(nei)
+}
+
+question4 <- function(nei, scc) {
+    coal_scc <- scc[grepl("^Fuel Comb.*Coal$", scc$EI.Sector), 1]
+    coal_nei <- nei[nei$SCC %in% coal_scc]
+    ggplot_emissions_by_type(coal_nei)
+}
