@@ -28,7 +28,7 @@ NEI <- readRDS("summarySCC_PM25.rds")
 png(filename = "plot2.png")
 
 # Plot total annual emissions for Baltimore City
-balt <- subset(nei, fips == "24510")
+balt <- subset(NEI, fips == "24510")
 plot_total_emissions(balt, "for Baltimore City")
 
 # Save and close the PNG
