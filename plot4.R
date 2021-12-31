@@ -28,8 +28,8 @@ SCC <- readRDS("Source_Classification_Code.rds")
 png(filename = "plot4.png")
 
 # Plot total annual emissions from coal-related sources
-coal_scc <- SSC[grepl("^Fuel Comb.*Coal$", SCC$EI.Sector), 1]
-coal_nei <- NEI[NEI$SCC %in% coal_scc]
+coal_scc <- SCC[grepl("^Fuel Comb.*Coal$", SCC$EI.Sector), 1]
+coal_nei <- NEI[NEI$SCC %in% coal_scc, ]
 plot_total_emissions(coal_nei, "from Coal Sources")
 
 # Save and close the PNG
