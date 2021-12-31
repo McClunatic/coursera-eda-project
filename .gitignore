@@ -1,5 +1,5 @@
 # Ignore R .rds files
 *.rds
 
- # Ignore generated .png files
- *.png
+# Ignore generated .png files
+*.png
