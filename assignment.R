@@ -5,6 +5,7 @@ MAIN <- "Total Annual PM2.5 Emissions"
 
 #' Builds a plot to answer question 1
 plot_total_emissions <- function(nei, main) {
+    main <- if (missing(main)) { MAIN } else { paste(MAIN, main) }
     year_totals <- tapply(nei$Emissions, nei$year, sum)
     barplot(
         year_totals,
@@ -14,36 +15,37 @@ plot_total_emissions <- function(nei, main) {
     )
 }
 
-ggplot_emissions_by_type <- function(nei) {
-    g <- ggplot(nei, aes(factor(year), Emissions))
-    g + facet_grid(vars(type)) + geom_col()
-}
-
 question1 <- function(nei) {
-    plot_total_emissions(nei, MAIN)
+    plot_total_emissions(nei)
 }
 
 question2 <- function(nei) {
     balt <- subset(nei, fips == "24510")
-    main <- paste(MAIN, "for Baltimore City")
-    plot_total_emissions(balt, main)
+    plot_total_emissions(balt, "for Baltimore City")
 }
 
 question3 <- function(nei) {
-    ggplot_emissions_by_type(nei)
+    g <- ggplot(nei, aes(factor(year), Emissions))
+    g + facet_grid(vars(type)) + geom_col()
 }
 
 question4 <- function(nei, scc) {
     coal_scc <- scc[grepl("^Fuel Comb.*Coal$", scc$EI.Sector), 1]
     coal_nei <- nei[nei$SCC %in% coal_scc]
-    main <- paste(MAIN, "from Coal Sources")
-    plot_total_emissions(coal_nei, main)
+    plot_total_emissions(coal_nei, "from Coal Sources")
 }
 
 question5 <- function(nei, scc) {
     mv_scc <- scc[grepl("^Mobile.*", scc$EI.Sector), 1]
     mv_nei <- nei[nei$SCC %in% mv_scc, ]
     mv_balt <- subset(mv_nei, fips == "24510")
-    main <- paste(MAIN, "from Mobile Sources in Baltimore City")
-    plot_total_emissions(mv_balt, main)
+    plot_total_emissions(mv_balt,  "from Mobile Sources in Baltimore City")
+}
+
+question6 <- function(nei, scc) {
+    mv_scc <- scc[grepl("^Mobile.*", scc$EI.Sector), 1]
+    mv_nei <- nei[nei$SCC %in% mv_scc, ]
+    mv_sub <- subset(mv_nei, fips %in% c("24510", "06037"))
+    g <- ggplot(mv_sub, aes(factor(year), Emissions))
+    g + facet_grid(vars(factor(fips))) + geom_col()
 }
